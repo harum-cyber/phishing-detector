@@ -45,3 +45,17 @@ for result in url_results:
 
 print("\nDomain Mismatch:")
 print(mismatch)
+
+from decision_engine.rule_based_decision import RuleBasedDecision
+
+print("\nDomain Mismatch:")
+print(mismatch)
+
+decision = RuleBasedDecision.decide(
+    sender_result,
+    url_results,
+    mismatch
+)
+
+print("\nFinal Decision:")
+print(decision)
