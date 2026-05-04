@@ -1,0 +1,27 @@
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+
+from preprocessing.email_parser import EmailParser
+from preprocessing.html_cleaner import HTMLCleaner
+
+
+file_path = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "data", "raw", "sample_phishing.eml")
+)
+
+email_data = EmailParser.parse_eml(file_path)
+cleaned_data = HTMLCleaner.clean(email_data["body"])
+
+print("Subject:")
+print(email_data["subject"])
+
+print("\nSender:")
+print(email_data["sender"])
+
+print("\nCleaned Body:")
+print(cleaned_data["text"])
+
+print("\nExtracted Links:")
+print(cleaned_data["links"])

@@ -1,0 +1,12 @@
+From: security@fake-bank.com
+Subject: Urgent Account Verification
+MIME-Version: 1.0
+Content-Type: text/html
+
+<html>
+  <body>
+    <h2>Urgent: Verify Your Account</h2>
+    <p>Your account will be suspended unless you verify now.</p>
+    <a href="http://fake-bank-login.com">Verify Account</a>
+  </body>
+</html>
