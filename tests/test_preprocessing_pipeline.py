@@ -7,6 +7,7 @@ from preprocessing.email_parser import EmailParser
 from preprocessing.html_cleaner import HTMLCleaner
 from protocol_layer.url_analyzer import URLAnalyzer
 from protocol_layer.sender_analyzer import SenderAnalyzer
+from semantic_layer.semantic_analyzer import SemanticAnalyzer
 
 file_path = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "data", "raw", "sample_phishing.eml")
@@ -14,6 +15,10 @@ file_path = os.path.abspath(
 
 email_data = EmailParser.parse_eml(file_path)
 cleaned_data = HTMLCleaner.clean(email_data["body"])
+semantic_result = SemanticAnalyzer.analyze(
+    email_data["subject"],
+    cleaned_data["text"]
+)
 sender_result = SenderAnalyzer.analyze(email_data["sender"])
 
 url_results = []
@@ -48,14 +53,15 @@ print(mismatch)
 
 from decision_engine.rule_based_decision import RuleBasedDecision
 
-print("\nDomain Mismatch:")
-print(mismatch)
 
 decision = RuleBasedDecision.decide(
     sender_result,
     url_results,
-    mismatch
+    mismatch,
+    semantic_result
 )
 
+print("\nSemantic Analysis:")
+print(semantic_result)
 print("\nFinal Decision:")
 print(decision)

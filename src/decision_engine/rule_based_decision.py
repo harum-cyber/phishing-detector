@@ -1,10 +1,12 @@
 class RuleBasedDecision:
 
     @staticmethod
-    def decide(sender_result, url_results, domain_mismatch):
+    def decide(sender_result, url_results, domain_mismatch, semantic_result):
+
         score = 0
         reasons = []
 
+        # --- Protocol Layer ---
         if sender_result["is_suspicious"]:
             score += 1
             reasons.extend(sender_result["reasons"])
@@ -18,10 +20,17 @@ class RuleBasedDecision:
             score += 3
             reasons.append("Sender domain does not match URL domain")
 
-        if score >= 4:
+        # --- Semantic Layer ---
+        semantic_score = semantic_result["semantic_score"]
+        score += semantic_score
+
+        reasons.extend(semantic_result["semantic_reasons"])
+
+        # --- Final Decision ---
+        if score >= 7:
             risk = "high"
             is_phishing = True
-        elif score >= 2:
+        elif score >= 4:
             risk = "medium"
             is_phishing = True
         else:
