@@ -1,0 +1,12 @@
+From: support@bank.com
+Subject: Monthly Account Statement
+MIME-Version: 1.0
+Content-Type: text/html
+
+<html>
+  <body>
+    <h2>Your Monthly Statement is Ready</h2>
+    <p>Your account statement for this month is now available.</p>
+    <a href="https://bank.com/statements">View Statement</a>
+  </body>
+</html>

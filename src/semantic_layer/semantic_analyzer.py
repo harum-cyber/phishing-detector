@@ -3,16 +3,13 @@ class SemanticAnalyzer:
     URGENCY_WORDS = [
         "urgent",
         "immediately",
-        "now",
         "suspended",
-        "verify",
         "limited time"
     ]
 
     CREDENTIAL_WORDS = [
         "password",
         "login",
-        "account",
         "credentials",
         "verify your account"
     ]

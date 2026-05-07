@@ -1,4 +1,5 @@
 import os
+import sys 
 
 from src.preprocessing.email_parser import EmailParser
 from src.preprocessing.html_cleaner import HTMLCleaner
@@ -56,13 +57,18 @@ def run_pipeline(file_path):
         "decision": decision
     }
 
-
 if __name__ == "__main__":
+
+    if len(sys.argv) < 2:
+        print("Usage: python main.py <email_file>")
+        sys.exit()
+
+    email_filename = sys.argv[1]
 
     file_path = os.path.join(
         "data",
         "raw",
-        "sample_phishing.eml"
+        email_filename
     )
 
     result = run_pipeline(file_path)
