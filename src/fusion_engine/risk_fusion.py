@@ -5,6 +5,9 @@ class RiskFusion:
         score = 0
         reasons = []
 
+        # --------------------
+        # Protocol evidence
+        # --------------------
         if protocol_result["sender"]["is_suspicious"]:
             score += 1
             reasons.extend(protocol_result["sender"]["reasons"])
@@ -18,26 +21,45 @@ class RiskFusion:
             score += 3
             reasons.append("Sender domain does not match URL domain")
 
-        llm_risk = llm_result.get("risk", "low")
-        llm_confidence = float(llm_result.get("confidence", 0))
+        # --------------------
+        # LLM semantic evidence
+        # --------------------
+        llm_risk = str(llm_result.get("risk", "low")).lower()
+        llm_confidence = float(llm_result.get("confidence", 0) or 0)
+
+        social_indicators = llm_result.get("social_engineering_indicators") or []
+        credential_indicators = llm_result.get("credential_theft_indicators") or []
+        impersonation_indicators = llm_result.get("impersonation_indicators") or []
 
         if llm_risk == "high":
             score += 4
         elif llm_risk == "medium":
             score += 2
 
+        if llm_result.get("is_semantically_suspicious") is True:
+            score += 2
+
+        if llm_confidence >= 0.7 and llm_result.get("is_semantically_suspicious") is True:
+            score += 1
+
+        if social_indicators:
+            score += 1
+            reasons.extend(social_indicators)
+
+        if credential_indicators:
+            score += 2
+            reasons.extend(credential_indicators)
+
+        if impersonation_indicators:
+            score += 2
+            reasons.extend(impersonation_indicators)
+
         if llm_result.get("reason"):
             reasons.append(llm_result["reason"])
 
-        if llm_result.get("social_engineering_indicators"):
-            reasons.extend(llm_result["social_engineering_indicators"])
-
-        if llm_result.get("credential_theft_indicators"):
-            reasons.extend(llm_result["credential_theft_indicators"])
-
-        if llm_result.get("impersonation_indicators"):
-            reasons.extend(llm_result["impersonation_indicators"])
-
+        # --------------------
+        # Final decision
+        # --------------------
         if score >= 7:
             risk = "high"
             is_phishing = True
