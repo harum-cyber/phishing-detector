@@ -5,7 +5,7 @@ from src.preprocessing.email_parser import EmailParser
 from src.preprocessing.html_cleaner import HTMLCleaner
 from src.protocol_layer.url_analyzer import URLAnalyzer
 from src.protocol_layer.sender_analyzer import SenderAnalyzer
-from src.semantic_layer.groq_analyzer import GroqSemanticAnalyzer
+from src.semantic_layer.openrouter_analyzer import OpenRouterSemanticAnalyzer
 from src.semantic_layer.semantic_analyzer import SemanticAnalyzer
 from src.fusion_engine.risk_fusion import RiskFusion
 
@@ -19,14 +19,19 @@ def run_pipeline(file_path):
     cleaned_data = HTMLCleaner.clean(email_data["body"])
 
     # --- LLM Semantic Analysis ---
+    # --- LLM Semantic Analysis ---
     try:
-        semantic_result = GroqSemanticAnalyzer.analyze(
-            email_data["subject"],
-            cleaned_data["text"],
-            email_data["sender"],
-            cleaned_data["links"]
+        semantic_analyzer = OpenRouterSemanticAnalyzer()
+
+        semantic_result = semantic_analyzer.analyze(
+            email_data=email_data,
+            cleaned_data={
+                "cleaned_text": cleaned_data.get("text", ""),
+                "links": cleaned_data.get("links", [])
+            }
         )
-        semantic_source = "groq_llama"
+
+        semantic_source = "openrouter_llama"
     except Exception as e:
         semantic_result = SemanticAnalyzer.analyze(
             email_data["subject"],
@@ -107,3 +112,4 @@ if __name__ == "__main__":
 
     print("\nDecision:")
     print(result["decision"])
+    print("Semantic Source:", result["semantic_source"])

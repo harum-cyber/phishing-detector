@@ -1,0 +1,76 @@
+import os
+import pandas as pd
+import os
+import sys
+
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            ".."
+        )
+    )
+)
+from main import run_pipeline
+
+
+DATA_PATH = "data/processed/test_dataset.csv"
+
+
+def evaluate_protocol_only():
+    df = pd.read_csv(DATA_PATH)
+
+    y_true = []
+    y_pred = []
+
+    for i, row in df.iterrows():
+        file_path = create_eml(row)
+        result = run_pipeline(file_path)
+
+        protocol = result["protocol"]
+
+        # ------------------------
+        # MANUAL PROTOCOL SCORE ONLY
+        # ------------------------
+        score = 0
+
+        if protocol["sender"]["is_suspicious"]:
+            score += 1
+
+        for url in protocol["urls"]:
+            if url["is_suspicious"]:
+                score += 2
+
+        if protocol["mismatch"]:
+            score += 3
+
+        prediction = 1 if score >= 4 else 0  # phishing threshold
+
+        y_true.append(int(row["label"]))
+        y_pred.append(prediction)
+
+        print(f"{i+1}/{len(df)} done")
+
+    # ------------------------
+    # METRICS
+    # ------------------------
+    tp = sum((t == 1 and p == 1) for t, p in zip(y_true, y_pred))
+    tn = sum((t == 0 and p == 0) for t, p in zip(y_true, y_pred))
+    fp = sum((t == 0 and p == 1) for t, p in zip(y_true, y_pred))
+    fn = sum((t == 1 and p == 0) for t, p in zip(y_true, y_pred))
+
+    acc = (tp + tn) / len(y_true)
+    prec = tp / (tp + fp) if (tp + fp) else 0
+    rec = tp / (tp + fn) if (tp + fn) else 0
+    f1 = 2 * prec * rec / (prec + rec) if (prec + rec) else 0
+
+    print("\n=== Protocol Only Results ===")
+    print("Accuracy:", acc)
+    print("Precision:", prec)
+    print("Recall:", rec)
+    print("F1:", f1)
+
+
+if __name__ == "__main__":
+    evaluate_protocol_only()

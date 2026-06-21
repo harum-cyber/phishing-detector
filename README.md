@@ -1,16 +1,46 @@
-# Phishing Detection Project
+Project Title
 
-This project implements a hybrid phishing detection system using:
 
-- Email parsing (.eml)
-- HTML cleaning and link extraction
-- URL and sender analysis
-- Rule-based decision engine
 
-## Current Status
-- Preprocessing pipeline completed
-- Protocol validation layer implemented
-- Decision engine integrated
+Hybrid Phishing Detection System Using Protocol Validation and Large Language Models
 
-## Next Step
-- Semantic Layer (LLM-based detection)
+
+
+Features
+
+\- Email Parsing
+
+\- HTML Cleaning
+
+\- Sender Validation
+
+\- URL Analysis
+
+\- OpenRouter Llama Semantic Analysis
+
+\- Risk Fusion Engine
+
+\- Streamlit Interface
+
+
+
+Dataset
+
+\- CEAS 2008
+
+\- SpamAssassin
+
+\- Nazario
+
+
+
+Results
+
+Accuracy: 85.23%
+
+Precision: 92.17%
+
+Recall: 79.38%
+
+F1-score: 85.30%
+
