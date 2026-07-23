@@ -1,46 +1,137 @@
-Project Title
+# Hybrid Phishing Detection System
 
+A hybrid phishing email detection framework that combines **Protocol Validation** with **Large Language Model (LLM) Semantic Analysis** to detect modern phishing attacks, including template-based and AI-generated phishing emails.
 
+---
 
-Hybrid Phishing Detection System Using Protocol Validation and Large Language Models
+## Overview
 
+Traditional phishing detection systems often rely on handcrafted rules or machine learning models that struggle with modern phishing emails generated using Large Language Models.
 
+This project proposes a hybrid framework that combines:
 
-Features
+- Protocol Validation
+- LLM Semantic Analysis
+- Hybrid Risk Fusion Engine
 
-\- Email Parsing
+to produce a robust, explainable phishing detection system.
 
-\- HTML Cleaning
+---
 
-\- Sender Validation
+## Features
 
-\- URL Analysis
+- Email (.eml) parsing
+- HTML cleaning
+- URL extraction
+- Sender analysis
+- URL validation
+- Domain mismatch detection
+- LLM semantic analysis (OpenRouter + Llama 3.1)
+- Risk Fusion Engine
+- Explainable phishing classification
+- Streamlit graphical interface
+- FastAPI backend
 
-\- OpenRouter Llama Semantic Analysis
+---
 
-\- Risk Fusion Engine
+## System Architecture
 
-\- Streamlit Interface
+The proposed framework consists of three major layers:
 
+1. Protocol Validation Layer
+2. LLM Semantic Analysis Layer
+3. Hybrid Fusion Engine
 
+These components work together to produce the final phishing classification.
 
-Dataset
+---
 
-\- CEAS 2008
+## Dataset
 
-\- SpamAssassin
+Public phishing email datasets were used:
 
-\- Nazario
+- CEAS_08
+- SpamAssassin
+- Nazario
 
+Final processed dataset:
 
+- 46,527 emails
 
-Results
+Evaluation set:
 
-Accuracy: 85.23%
+- 13,960 emails
 
-Precision: 92.17%
+---
 
-Recall: 79.38%
+## Technologies
 
-F1-score: 85.30%
+- Python
+- Streamlit
+- FastAPI
+- OpenRouter API
+- Llama 3.1
+- Pandas
 
+---
+
+## Performance
+
+| Metric | Value |
+|--------|-------|
+| Accuracy | 85.23% |
+| Precision | 92.17% |
+| Recall | 79.38% |
+| F1-score | 85.30% |
+
+---
+
+## User Interface
+
+The application allows users to upload an `.eml` file and automatically performs:
+
+- Protocol Validation
+- Semantic Analysis
+- Hybrid Risk Fusion
+
+The interface provides:
+
+- Final classification
+- Risk level
+- Risk score
+- Protocol findings
+- Semantic indicators
+- Decision explanation
+- Recommended action
+
+---
+
+## Research
+
+This implementation was developed as part of the MSc dissertation:
+
+**A Robust Phishing Detection Method Against Template-based Attacks Using Large Language Model Semantic Analysis and Protocol Validation**
+
+University of Gezira
+Faculty of Mathematical and Computer Sciences
+
+2026
+
+---
+
+## Future Work
+
+Future improvements include:
+
+- Protocol-aware prompting
+- Fine-tuning using phishing-specific datasets
+- Local LLM deployment
+- Enterprise email evaluation
+- Multilingual phishing detection
+- Retrieval-Augmented Generation (RAG)
+
+---
+
+## License
+
+This repository is intended for academic and research purposes.
